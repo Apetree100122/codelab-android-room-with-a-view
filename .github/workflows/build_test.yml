@@ -1,7 +1,16 @@
-name: CI
-
-# Controls when the action will run. Triggers the workflow on push or pull request
-# events for the `master` and `kotlin` branches
+``` 
+CI: Controls when the
+action will run
+Triggers the workflow 
+on push
+or
+  pull request
+events for the
+`master` 
+and
+`kotlin`
+branches
+```
 on:
   push:
     branches:
@@ -11,66 +20,84 @@ on:
     branches:
       - master
       - kotlin
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+ A workflow run is made 
+ up of one or more jobs 
+ that can run sequentially or
+ in parallel
 jobs:
-
-  # Build will compile APK, test APK and run tests, lint, etc.
+ Build: will compile APK
+ test: APK 
+ run: tests
+ lint: 
   build:
-    # The type of runner that the job will run on
+  The type of runner that
+  the job will run on
     runs-on: ubuntu-latest
     timeout-minutes: 45
     env:
-      TERM: dumb
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
+      TERM:
+      'dumb'
+Steps represent a sequence
+of tasks that will be executed 
+as part of the job
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
-
-    - name: set up JDK 1.8
-      uses: actions/setup-java@v1
+    Check-out: your repository under 
+    {{$GITHUB_WORKSPACE}}
+    so your job can access it
+     uses: 
+     actions/checkout@v2
+     set up: JDK 1.8
+      uses: 
+      actions/setup-java@v1
       with:
-        java-version: 1.8
-    - name: Build and check
-      run: ./gradlew assembleDebug assembleDebugAndroidTest app:lintDebug testDebug
-
-    - name: Upload build reports
-      if: always()
-      uses: actions/upload-artifact@v1
-      with:
-        name: build-reports
+      java-version: 1.8
+    Build: 
+  check:
+      run: 
+      ./gradlew: 
+      assemble:
+      Debug: assemble
+      Debug: Android 
+      Test: app:
+      lint: Debug
+      test: Debug
+     Upload: build-reports
+    always
+    (                              )
+      uses:
+      actions/upload-artifact@v1
+      with: build-reports
         path: app/build/reports
 Copy: test results
-      [(if
-    always)]
-      run|
+always 
+    (                            )
+      run: |
         mkdir -p junit
         find( . -type f -regex ".*/build/test-results/.*xml" -exec cp {} junit/ \;)     
-    # name: Upload test results (if: always) uses:|
-   
-   #actions
-     # /
-   # upload-artifact@v1junit-results
+   Upload:
+   test results 
+   (if: 
+   always)
+   |actions: upload-artifact@v1
+   /:
+   junit-results
         path: 
         /*junit
+    Upload: app APK
+  actions:
+  /
+  upload" artifact@v1
+      with: app-debug
+        path: app/build/outputs/apk/debug/app-debug.apk 
+    Upload: Android 
+    Test: APK actions/upload-artifact@v1
+    app-debug-androidTest 
+    path:
+    app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
       
-    - name: Upload app APK
-      uses: actions/upload-artifact@v1
-      with:
-        name: app-debug
-        path: app/build/outputs/apk/debug/app-debug.apk
-        
-    - name: Upload Android Test APK
-      uses: actions/upload-artifact@v1
-    with:
-    name: app-debug-androidTest 
-    path: app/build/outputs/apk/androidTest/debug/app-debug-androidTest.apk
-
-
-      
-Upload APKs to FTL and run instrumented tests
-
+Upload:
+APKs to FTL and
+run: instrumented tests
 firebase:
     name: Run UI tests with Firebase Test Lab
     needs: build
@@ -90,7 +117,13 @@ firebase:
         with:
           version: '281.0.0'
           service_account_key: ${{ secrets.FTL_KEY_BASE64 }}
-        #Set: current project
-        #run: gcloud config set project ${{ secrets.FIREBASE_PROJECT_ID }}
-      #Run: Instrumentation Tests in Firebase Test Lab,    
-  #run: gcloud firebase test android run --type instrumentation --app app-debug/app-debug.apk --test app-debug-androidTest/app-debug-androidTest.apk --device model=Pixel2,version=28,locale=pl,orientation=portrait
+        Set: current project
+        run: gcloud
+        config: set project 
+        ${{ secrets.FIREBASE_PROJECT_ID }}
+      Run: Instrumentation Tests in Firebase Test: Lab
+  run: gcloud firebase test: android run: 
+  type: instrumentation app
+  app: debug/app-debug.apk 
+  test: app-debug-androidTest/app-debug-androidTest.apk 
+device: model=Pixel2,version=28,locale=pl,orientation=portrait
